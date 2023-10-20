@@ -1,0 +1,3 @@
+How to create a new Hosted Blazorwasm app by Command Line
+-> dotnet new blazorwasm -o YourAppName -ho
+
