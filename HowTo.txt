@@ -1,3 +1,8 @@
 How to create a new Hosted Blazorwasm app by Command Line
 -> dotnet new blazorwasm -o YourAppName -ho
 
+How to add QuickGrid to your Blazor project by Command Line
+-> dotnet add package Microsoft.AspNetCore.Components.QuickGrid --prerelease
+
+How to specify version to your new Blazor project by Command Line
+-> dotnet new blazorwasm -o MultiThreadingApp -ho -f net7.0
