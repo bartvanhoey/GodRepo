@@ -1,0 +1,35 @@
+@page "/{day:int}"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+@if (showImage)
+{
+    <img src="images/@(Day).jpg">
+}
+
+@code {
+
+    [Parameter]
+    public int Day { get; set; }
+
+    bool showImage = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var today = DateTime.Now;
+        if (today.Day < Day || today.Month != 10)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Be patient, Kid! It's not December, {Day} yet;");
+            NavigationManager!.NavigateTo("/", false);
+        }
+        else
+        {
+            showImage = true;
+        }
+
+
+    }
+
+
+
+}
