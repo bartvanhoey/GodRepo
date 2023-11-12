@@ -1,0 +1,84 @@
+﻿@page "/weather"
+@inject HttpClient Http
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Weather</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <QuickGrid Items="@forecasts.AsQueryable()" >
+        <PropertyColumn Property="p=> p.Date" Format="dddd, dd MMMM yyyy"   Sortable="true" />
+        <PropertyColumn Property="p=> p.TemperatureC" Title="Temp °C"   Sortable="true" />
+        <PropertyColumn Property="p=> p.TemperatureF" Title="Temp °F"  Sortable="true" />
+        <PropertyColumn Property="p=> p.Summary"  Sortable="true" >
+            <ColumnOptions>
+                <input/>
+            </ColumnOptions>
+        </PropertyColumn>
+        <TemplateColumn>
+            <div>
+                <span>@context.Summary!.ToLower()</span>
+            </div>
+        </TemplateColumn>
+         <TemplateColumn>
+            <button class="btn btn-primary" onclick="@(() => ShowItToMe(context))"><i class="oi oi-cloud" /></button>
+        </TemplateColumn>
+    </QuickGrid>
+
+
+    @* <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table> *@
+}
+
+@code {
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+    }
+
+    internal void ShowItToMe(WeatherForecast forecast)
+    {
+        Console.WriteLine(forecast.Summary);
+    }
+
+
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+}
