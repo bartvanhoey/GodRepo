@@ -1,0 +1,12 @@
+Create a JWT token for the windows user and also enters an Authentication section in appsettings.Development.json
+dotnet user-jwts create
+
+Print details about the JWT token 
+dotnet user-jwts print 5dd885fi
+
+Generates a Signing JWT for the windows user
+dotnet user-jwts key
+
+Generates a list with secrets for the windows user
+dotnet user-secrets list
+
