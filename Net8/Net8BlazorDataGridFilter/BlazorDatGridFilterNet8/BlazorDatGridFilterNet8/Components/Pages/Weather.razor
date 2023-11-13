@@ -1,0 +1,82 @@
+﻿@page "/weather"
+@inject HttpClient Http
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Weather</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+    <QuickGrid Items="@FilteredForecasts">
+        <PropertyColumn Property="p=> p.Date" Format="dddd, dd MMMM yyyy" Sortable="true" />
+        <PropertyColumn Property="p=> p.TemperatureC" Title="Temp °C" Sortable="true" >
+            <ColumnOptions>
+                <p>Min: <input type="range" @bind="minTempC" @bind:event="oninput" min="-50" max="50" ><span>@minTempC</span></p>
+                <p>Max: <input type="range" @bind="maxTempC" @bind:event="oninput" min="-50" max="50" ><span>@maxTempC</span></p>
+            </ColumnOptions>
+        </PropertyColumn>
+        <PropertyColumn Property="p=> p.TemperatureF" Title="Temp °F" Sortable="true" />
+        <PropertyColumn Property="p=> p.Summary" Sortable="true">
+            <ColumnOptions>
+                <input type="search" autofocus @bind="SummaryFilter" @bind:event="oninput" placeholder="Summary" />
+            </ColumnOptions>
+        </PropertyColumn>
+        <TemplateColumn>
+            <div>
+                <span>@context.Summary!.ToLower()</span>
+            </div>
+        </TemplateColumn>
+        <TemplateColumn>
+            <button class="btn btn-primary" onclick="@(() => ShowItToMe(context))">
+                <span class="bi bi-house-door-fill"></span>
+            </button>
+        </TemplateColumn>
+        <TemplateColumn Title="Title" Align="@Align.Left" />
+    </QuickGrid>
+}
+@code {
+    private WeatherForecast[]? forecasts;
+
+    private string? SummaryFilter;
+
+    private int minTempC = -50;
+    private int maxTempC = 50;
+
+    IQueryable<WeatherForecast> FilteredForecasts
+    {
+        get
+        {
+            var result = forecasts?.AsQueryable().Where(f =>  f.TemperatureC < maxTempC && f.TemperatureC > minTempC);
+            if (string.IsNullOrEmpty(SummaryFilter)) return result;
+            return result.Where(x => x.Summary != null && x.Summary.Contains(SummaryFilter,
+            StringComparison.InvariantCultureIgnoreCase));
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+    }
+
+    public void ShowItToMe(WeatherForecast forecast) => Console.WriteLine($"It will be {forecast.Summary!.ToLower()}.");
+
+
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+}

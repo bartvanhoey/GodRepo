@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorDatGridFilterNet8", "BlazorDatGridFilterNet8.csproj", "{6884D079-B24F-4786-9094-AE833536BDEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6884D079-B24F-4786-9094-AE833536BDEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6884D079-B24F-4786-9094-AE833536BDEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6884D079-B24F-4786-9094-AE833536BDEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6884D079-B24F-4786-9094-AE833536BDEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A52055C8-6D2B-4336-98C1-152F69930AA3}
+	EndGlobalSection
+EndGlobal
