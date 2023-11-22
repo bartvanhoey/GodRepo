@@ -1,0 +1,37 @@
+@page "/videogames"
+@inject HttpClient Http
+
+<PageTitle>Video games</PageTitle>
+
+@if (games.Count <= 0)
+{
+    <span>Loading Video Games...</span>
+}
+else
+{
+    @* <ul>
+        @foreach (var game in games)
+        {
+            <li>@game.Title - @game.Publisher - @game.ReleaseYear</li>
+        }
+    </ul> *@
+
+    
+    <QuickGrid Items="@games.AsQueryable()"  >
+        <PropertyColumn Property="p=> p.Title" />
+        <PropertyColumn Property="p=> p.Publisher"/>
+        <PropertyColumn Property="p=> p.ReleaseYear"/>
+    </QuickGrid>
+
+
+}
+
+
+@code {
+    List<VideoGame> games = new List<VideoGame>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        games = await Http.GetFromJsonAsync<List<VideoGame>>("api/videogame") ?? new List<VideoGame>();
+    }    
+}
