@@ -1,37 +1,38 @@
 @page "/videogames"
 @inject HttpClient Http
-
+@inject NavigationManager NavigationManager
 <PageTitle>Video games</PageTitle>
 
-@if (games.Count <= 0)
+@if (games is null)
 {
     <span>Loading Video Games...</span>
 }
 else
 {
-    @* <ul>
-        @foreach (var game in games)
-        {
-            <li>@game.Title - @game.Publisher - @game.ReleaseYear</li>
-        }
-    </ul> *@
 
-    
-    <QuickGrid Items="@games.AsQueryable()"  >
+    <button class="btn btn-primary mb-3" @onclick="AddVideoGame">Add Video Game</button>
+
+    <QuickGrid Items="@games.AsQueryable()">
         <PropertyColumn Property="p=> p.Title" />
-        <PropertyColumn Property="p=> p.Publisher"/>
-        <PropertyColumn Property="p=> p.ReleaseYear"/>
+        <PropertyColumn Property="p=> p.Publisher" />
+        <PropertyColumn Property="p=> p.ReleaseYear" />
+        <TemplateColumn Align="@Align.Left">
+            <button class="btn btn-primary" @onclick="(() => EditVideoGame(context.Id))">Edit Video Game</button>
+        </TemplateColumn>
     </QuickGrid>
-
-
 }
 
 
 @code {
-    List<VideoGame> games = new List<VideoGame>();
+    List<VideoGame>? games;
 
     protected override async Task OnInitializedAsync()
     {
         games = await Http.GetFromJsonAsync<List<VideoGame>>("api/videogame") ?? new List<VideoGame>();
-    }    
+    }
+
+    protected void AddVideoGame() => NavigationManager!.NavigateTo("/videogame", false);
+    protected void EditVideoGame(int id) => NavigationManager!.NavigateTo($"/videogame/{id}", false);
+
+    
 }

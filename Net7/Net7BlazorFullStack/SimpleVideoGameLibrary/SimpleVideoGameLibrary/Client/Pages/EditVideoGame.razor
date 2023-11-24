@@ -1,0 +1,56 @@
+@inherits EditVideoGameBase
+@page "/videogame"
+@page "/videogame/{id:int}"
+
+
+
+<h3>Video Game</h3>
+
+
+@if (Id == null)
+{
+    <PageTitle>Add a New VideoGame</PageTitle>
+    <h3>Add a New VideoGame</h3>
+}
+else
+{
+    <PageTitle>Edit @VideoGame.Title</PageTitle>
+    <h3>Edit @VideoGame.Title</h3>
+}
+
+
+
+<EditForm Model="@VideoGame" OnValidSubmit="HandleValidSubmitAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3">
+        <label for="idTitle" class="form-label">Another</label>
+        <div>
+            <InputText id="idTitle" class="form-control" @bind-Value="@VideoGame.Title" placeholder="Title..." />
+            <ValidationMessage For="@(() => VideoGame.Title)" />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="idPublisher">Publisher</label>
+        <div>
+            <InputText id="idPublisher" class="form-control" @bind-Value="@VideoGame.Publisher"
+                placeholder="Publisher..." />
+            <ValidationMessage For="@(() => VideoGame.Publisher)" />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="idReleaseYear">Release Year</label>
+        <div>
+            <InputNumber id="idReleaseYear" class="form-control" @bind-Value="@VideoGame.ReleaseYear" />
+            <ValidationMessage For="@(() => VideoGame.ReleaseYear)" />
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit VideoGame</button>
+</EditForm>
+
+@if (Id != null)
+{
+    <button class="btn btn-danger" @onclick="DeleteVideoGameAsync">Delete VideoGame</button>
+}
