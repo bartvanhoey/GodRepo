@@ -1,0 +1,31 @@
+@page "/editgame"
+@page "/editgame/{id:int}"
+
+<h3>Create Game</h3>
+
+<EditForm Model="@Game" FormName="Game" OnSubmit="HandleSubmitAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3">
+        <label for="idName" class="form-label">Name</label>
+        <div>
+            <InputText id="idName" class="form-control" @bind-Value="@Game.Name" placeholder="Name..." />
+            <ValidationMessage For="@(() => Game.Name)" />
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Add Game</button>
+</EditForm>
+
+
+@code {
+    protected Game Game = new Game { Name = string.Empty };
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected async Task HandleSubmitAsync()
+    {
+        var game = Game;
+        await Task.CompletedTask;
+    }
+}
