@@ -1,9 +1,12 @@
 @page "/editgame"
 @page "/editgame/{id:int}"
+@inject IGameService GameService
+@rendermode InteractiveWebAssembly
+
 
 <h3>Create Game</h3>
 
-<EditForm Model="@Game" FormName="Game" OnSubmit="HandleSubmitAsync">
+<EditForm Model="@Game" FormName="frmEditGame" OnSubmit="HandleSubmitAsync">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="mb-3">
@@ -18,14 +21,15 @@
 
 
 @code {
-    protected Game Game = new Game { Name = string.Empty };
+    [SupplyParameterFromForm]
+    protected Game Game { get; set; } = new Game { Name = string.Empty };
 
     [Parameter]
     public int Id { get; set; }
 
     protected async Task HandleSubmitAsync()
     {
-        var game = Game;
-        await Task.CompletedTask;
+        await GameService.AddGameAsync(Game);
+
     }
 }

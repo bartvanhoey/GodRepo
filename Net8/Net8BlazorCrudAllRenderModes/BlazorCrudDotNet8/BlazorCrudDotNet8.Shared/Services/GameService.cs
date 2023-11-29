@@ -1,8 +1,8 @@
-using BlazorCrudDotNet8.Data;
-using BlazorCrudDotNet8.Entities;
+using BlazorCrudDotNet8.Shared.Data;
+using BlazorCrudDotNet8.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazorCrudDotNet8.Services
+namespace BlazorCrudDotNet8.Shared.Services
 {
     public class GameService : IGameService
     {
@@ -11,6 +11,13 @@ namespace BlazorCrudDotNet8.Services
         public GameService(DataContext context)
         {
             _db = context;
+        }
+
+        public async Task<Game> AddGameAsync(Game game)
+        {
+            _db.Games.Add(game);
+            await _db.SaveChangesAsync();
+            return game;
         }
 
         public async Task<List<Game>> GetAllGamesAsync()

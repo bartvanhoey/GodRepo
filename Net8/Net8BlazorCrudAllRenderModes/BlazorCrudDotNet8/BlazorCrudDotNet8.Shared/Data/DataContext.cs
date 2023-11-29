@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BlazorCrudDotNet8.Entities;
+using BlazorCrudDotNet8.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazorCrudDotNet8.Data
+namespace BlazorCrudDotNet8.Shared.Data
 {
     public class DataContext : DbContext
     {
