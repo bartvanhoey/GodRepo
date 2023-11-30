@@ -4,7 +4,16 @@
 @rendermode InteractiveWebAssembly
 
 
-<h3>Create Game</h3>
+@if (Id == null)
+{
+    <h3>Create Game</h3>
+}
+else
+{
+    <h3>Edit @Game.Name</h3>
+}
+
+
 
 <EditForm Model="@Game" FormName="frmEditGame" OnSubmit="HandleSubmitAsync">
     <DataAnnotationsValidator />
@@ -25,11 +34,15 @@
     protected Game Game { get; set; } = new Game { Name = string.Empty };
 
     [Parameter]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     protected async Task HandleSubmitAsync()
     {
         await GameService.AddGameAsync(Game);
 
     }
+
+    protected override async Task OnParametersSetAsync() 
+        => Game = await GameService.GetGameById(Id.Value);
+
 }

@@ -28,5 +28,11 @@ namespace BlazorCrudDotNet8.Shared.Services
 
             return games; ;
         }
+
+        public async Task<Game> GetGameById(int id)
+        {
+            var game = await _db.Games.FirstOrDefaultAsync(x => x.Id == id);
+            return game;
+        }
     }
 }
