@@ -7,5 +7,7 @@ namespace BlazorCrudDotNet8.Shared.Services
         Task<List<Game>> GetAllGamesAsync();   
         Task<Game> AddGameAsync(Game game);   
         Task<Game> GetGameById(int id);
+        Task<Game> EditGameAsync(int id, Game game);
+        Task<bool> DeleteGameAsync(int id);
     }
 }

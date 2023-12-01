@@ -26,6 +26,11 @@ else
         </div>
     </div>
     <button class="btn btn-primary" type="submit">Add Game</button>
+    @if (Id != null)
+    {
+        <button class="btn btn-primary" type="button" @onclick="DeleteGameAsync">Delete</button>
+    }
+    
 </EditForm>
 
 
@@ -36,13 +41,28 @@ else
     [Parameter]
     public int? Id { get; set; }
 
-    protected async Task HandleSubmitAsync()
-    {
-        await GameService.AddGameAsync(Game);
 
+
+
+    protected async Task DeleteGameAsync()
+    {
+        await GameService.DeleteGameAsync((int)Id!);
     }
 
-    protected override async Task OnParametersSetAsync() 
-        => Game = await GameService.GetGameById(Id.Value);
+    protected async Task HandleSubmitAsync()
+    {
+        if (Id == null)
+        {
+            await GameService.AddGameAsync(Game);
+
+        }
+        else
+        {
+            await GameService.EditGameAsync((int)Id, Game);
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    => Game = await GameService.GetGameById(Id.Value);
 
 }

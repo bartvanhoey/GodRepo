@@ -20,6 +20,32 @@ namespace BlazorCrudDotNet8.Shared.Services
             return game;
         }
 
+        public async Task<bool> DeleteGameAsync(int id)
+        {
+            var game = await _db.Games.FindAsync(id);
+            if (game != null)
+            {
+                _db.Games.Remove(game);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            return false;
+
+        }
+
+        public async Task<Game> EditGameAsync(int id, Game game)
+        {
+            var dbGame = await _db.Games.FindAsync(id);
+            if (dbGame != null)
+            {
+                dbGame.Name = game.Name;
+                await _db.SaveChangesAsync();
+                return dbGame;
+            }
+            return game;
+
+        }
+
         public async Task<List<Game>> GetAllGamesAsync()
         {
             await Task.Delay(2000);
