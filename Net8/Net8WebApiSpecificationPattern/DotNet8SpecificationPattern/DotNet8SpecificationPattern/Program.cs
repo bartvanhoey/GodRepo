@@ -48,7 +48,9 @@ void SeedData(DataContext context)
         var actionGenre = new Genre { Name = "Action" };
 
         var skyrim = new Game { Name = "Skyrim", Genre = rpgGenre };
-        var witcher = new Game { Name = "Witcher 3", Genre = rpgGenre };
+        var witcher = new Game { Name = "Witcher 3", Genre = rpgGenre, DLCs  =
+            [new DLC { Description = "description", Email = "justanemail@gamlo.com", Name = "DCVL" }]
+        };
         var cod = new Game { Name = "Callo Of Duty", Genre = actionGenre };
 
         context.AddRange(rpgGenre, actionGenre);
